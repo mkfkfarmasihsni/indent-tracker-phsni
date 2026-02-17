@@ -28,7 +28,6 @@ import {
   Trash2, 
   User, 
   StickyNote, 
-  Check, 
   Eraser, 
   AlertCircle,
   Loader2,
