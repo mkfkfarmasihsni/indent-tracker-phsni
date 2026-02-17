@@ -41,7 +41,7 @@ import {
 
 /**
  * NOTA TEKNIKAL:
- * Kod ini menggunakan pembolehubah global untuk persekitaran Preview.
+ * Kod di bawah menggunakan Environment Variables dari Vercel.
  */
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -51,8 +51,6 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
-  ? JSON.parse(__firebase_config) 
-  : {};
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
