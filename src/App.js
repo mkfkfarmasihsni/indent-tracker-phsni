@@ -17,7 +17,7 @@ import {
   onAuthStateChanged 
 } from 'firebase/auth';
 import { 
-  Hospital, 
+  Building2, 
   ChevronDown, 
   Search, 
   Clock, 
@@ -91,7 +91,7 @@ const getUnitColor = (unitName) => {
 
 // --- Integrasi API Gemini ---
 const callGemini = async (prompt) => {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${GEMINI_API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
   const fetchWithRetry = async (retries = 5, delay = 1000) => {
     try {
@@ -188,7 +188,6 @@ export default function App() {
       }
     });
 
-    // App Name Listener
     const appInfoRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'appInfo');
     const unsubscribeAppInfo = onSnapshot(appInfoRef, (docSnap) => {
       if (docSnap.exists()) {
@@ -209,7 +208,6 @@ export default function App() {
     };
   }, [user, entryUnit]);
 
-  // --- Tindakan AI ---
   const handleGenerateAiMessage = async (item) => {
     setAiLoading(true);
     setAiResponse(null);
@@ -248,7 +246,6 @@ export default function App() {
     }
   };
 
-  // --- Tindakan Standard ---
   const handleAddIndent = async (e) => {
     e.preventDefault();
     if (!user) return;
@@ -339,7 +336,6 @@ export default function App() {
     <div className="flex justify-center items-center min-h-screen bg-slate-100 font-sans text-slate-800">
       <div className="w-full max-w-md h-[100dvh] bg-white shadow-2xl flex flex-col relative overflow-hidden md:h-[850px] md:rounded-[3rem] md:border-[8px] md:border-slate-800">
         
-        {/* Connection Badge */}
         <div className="absolute top-1 right-8 z-50">
           <div className="flex items-center gap-1 bg-white/80 backdrop-blur px-2 py-0.5 rounded-full border border-slate-100 shadow-sm">
             <div className={`w-1.5 h-1.5 rounded-full ${user ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
@@ -347,11 +343,10 @@ export default function App() {
           </div>
         </div>
 
-        {/* Header */}
         <div className="p-4 border-b flex justify-between items-center bg-white sticky top-0 z-10 shadow-sm">
           <div onClick={() => setShowUnitSelector(true)} className="flex items-center gap-3 cursor-pointer group">
             <div className="bg-blue-600 p-2.5 rounded-xl text-white shadow-lg group-active:scale-90 transition-transform">
-              <Hospital className="w-5 h-5" />
+              <Building2 className="w-5 h-5" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[9px] font-black text-blue-600 uppercase tracking-tighter leading-none mb-1 truncate max-w-[150px]">{appName}</p>
@@ -371,7 +366,6 @@ export default function App() {
           )}
         </div>
 
-        {/* Search */}
         {activeTab === 'tracker' && (
           <div className="px-4 py-3 bg-slate-50 border-b">
             <div className="relative">
@@ -386,7 +380,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Content */}
         <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-slate-50/50 scroll-smooth no-scrollbar">
           {activeTab === 'tracker' && (
             filteredIndents.length > 0 ? filteredIndents.map(item => (
@@ -505,7 +498,6 @@ export default function App() {
             <div className="p-4 space-y-6 pb-10">
               <h2 className="text-2xl font-black uppercase italic text-slate-800 tracking-tighter">Tetapan Aplikasi</h2>
               
-              {/* Rename App Section */}
               <div className="bg-white p-5 rounded-[2rem] border border-slate-100 shadow-sm space-y-3">
                  <div className="flex items-center gap-2 mb-1">
                     <Edit3 className="w-4 h-4 text-blue-600" />
@@ -609,7 +601,6 @@ export default function App() {
           )}
         </div>
 
-        {/* Navigation */}
         <div className="h-20 bg-white border-t flex justify-around items-center px-6 pb-6 sticky bottom-0 z-10">
           <button onClick={() => setActiveTab('tracker')} className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'tracker' ? 'text-blue-600 scale-110 font-black' : 'text-slate-300'}`}>
             <LayoutGrid className="w-6 h-6" /><span className="text-[9px] font-black uppercase">STATUS</span>
@@ -622,7 +613,6 @@ export default function App() {
           </button>
         </div>
 
-        {/* AI Assistant Modal */}
         {showAiModal && (
           <div className="absolute inset-0 bg-slate-900/60 z-[200] flex items-center justify-center p-6 backdrop-blur-sm animate-in fade-in duration-300">
             <div className="bg-white w-full max-w-sm rounded-[2.5rem] p-6 shadow-2xl relative overflow-hidden border-t-8 border-purple-600">
@@ -645,7 +635,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Unit Selector Modal */}
         {showUnitSelector && (
           <div className="absolute inset-0 bg-slate-900/60 z-[100] flex items-center justify-center p-6 backdrop-blur-sm animate-in zoom-in duration-200">
             <div className="bg-white w-full max-w-sm rounded-[2.5rem] p-6 shadow-2xl">
@@ -661,7 +650,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Collector Modal */}
         {showCollectorModal && (
           <div className="absolute inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-6 backdrop-blur-sm animate-in zoom-in duration-200">
             <div className="bg-white w-full rounded-3xl p-6 shadow-2xl">
@@ -675,7 +663,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Note Modal */}
         {showNoteModal && (
           <div className="absolute inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-6 backdrop-blur-sm animate-in zoom-in duration-200">
             <div className="bg-white w-full rounded-3xl p-6 shadow-2xl">
@@ -689,7 +676,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Confirmation Modal */}
         {confirmDialog.show && (
           <div className="absolute inset-0 bg-slate-900/60 z-[100] flex items-center justify-center p-6 backdrop-blur-sm animate-in fade-in duration-200">
             <div className="bg-white w-full rounded-3xl p-6 shadow-2xl border-t-8 border-amber-500">
